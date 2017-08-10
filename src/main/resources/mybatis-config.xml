@@ -20,6 +20,8 @@
         <setting name="defaultStatementTimeout" value="2000"/>
     </settings>    
     <typeAliases>
-    <typeAlias alias="User"  type="com.webank.Appointment.module.User"/>
+    <typeAlias alias="ActivityInfo"  type="com.webank.Appointment.module.ActivityInfo"/>
+    <typeAlias alias="PaticipateInfo"  type="com.webank.Appointment.module.PaticipateInfo"/>
+    <typeAlias alias="PersonInfo"  type="com.webank.Appointment.module.PersonInfo"/>
     </typeAliases>
 </configuration>
