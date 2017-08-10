@@ -1,3 +1,5 @@
+CREATE DATABASE IF NOT EXISTS appointment default charset utf8 COLLATE utf8_general_ci; 
+
 DROP TABLE IF EXISTS `user`;  
 CREATE TABLE `user` (  
   user_id INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
