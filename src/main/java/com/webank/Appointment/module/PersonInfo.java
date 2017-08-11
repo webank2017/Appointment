@@ -9,10 +9,25 @@ import java.sql.Timestamp;
 public class PersonInfo {
 
 	private int userId;//'主键'
+	private String openId; //openId
 	private String username;//'用户姓名'
 	private int gender;//'性别 1:男 0:女'
 	private String phonenumber;// '电话号码'
 	
+	
+	
+	/**
+	 * @return the openId
+	 */
+	public String getOpenId() {
+		return openId;
+	}
+	/**
+	 * @param openId the openId to set
+	 */
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
 	/**
 	 * @return the user_id
 	 */

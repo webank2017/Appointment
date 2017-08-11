@@ -10,7 +10,10 @@
 	<select id="getPersonById" parameterType="int" resultMap="personInfo">
     	select * from yb_personinfo where userid=#{userId};
     </select>
-
+    
+	<select id="getPersonByOpenId" parameterType="String" resultMap="personInfo">
+    	select * from yb_personinfo where openid=#{openId};
+    </select>
 
 	<select id="getPersonByName" parameterType="String" resultMap="personInfo">
     	select * from yb_personinfo where username like concat(concat('%',#{username}),'%');

@@ -23,7 +23,12 @@ public interface PersonInfoDao {
 	 */
 	PersonInfo getPersonById(int userId);
 	
-
+	/**
+	 * 通过openId获取
+	 * @param openId
+	 * @return
+	 */
+	PersonInfo getPersonByOpenId(String openId);
 	/**
 	 * 通过名字获取
 	 * @param Name
