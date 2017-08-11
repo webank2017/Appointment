@@ -4,7 +4,15 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.webank.Appointment.dao.ActivityInfoDao">
-
+	<select id="getTotal"  parameterType="java.sql.Timestamp" resultType="int">
+    	select count(1) from yb_activityinfo where endTime >#{time} and activitystate=1;
+    </select>
+	
+	<select id="queryByPage"   resultMap="activityInfo">
+    	select * from yb_activityinfo where endtime >#{2} and activitystate=1 limit #{0},#{1}
+    	order by endtime asc;
+    </select>
+	
 	<select id="getActivityById" parameterType="int" resultMap="activityInfo">
     	select * from yb_activityinfo where activityid=#{activityId};
     </select>

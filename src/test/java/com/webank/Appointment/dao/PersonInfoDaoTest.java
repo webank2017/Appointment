@@ -29,6 +29,7 @@ public class PersonInfoDaoTest {
 	private PersonInfo getPersonInfo(){
 		PersonInfo personInfo = new PersonInfo();
 		personInfo.setUserId(1);
+		personInfo.setOpenId("1234567890");
 		personInfo.setGender(1);
 		personInfo.setPhonenumber("15992439943");
 		personInfo.setUsername("陈小锋");

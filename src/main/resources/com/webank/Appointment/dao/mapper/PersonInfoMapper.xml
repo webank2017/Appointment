@@ -26,8 +26,8 @@
 	
 
 	<insert id="addPerson" parameterType="PersonInfo" keyProperty="userid" useGeneratedKeys="true">
-		insert into yb_personinfo(username,gender,phonenumber) 
-		values(#{username},#{gender},#{phonenumber});
+		insert into yb_personinfo(username,gender,phonenumber,openid) 
+		values(#{username},#{gender},#{phonenumber},#{openId});
 	</insert>
 	
 
@@ -44,6 +44,7 @@
 	
     <resultMap type="PersonInfo" id="personInfo">  
         <id column="userid" property="userId"/>  
+        <result column="openid" property="openId"/>  
         <result column="username" property="username"/>  
         <result column="gender" property="gender"/>  
         <result column="phonenumber" property="phonenumber"/>  
