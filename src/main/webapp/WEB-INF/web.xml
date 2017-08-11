@@ -55,4 +55,8 @@
 		<extension>less</extension>
 		<mime-type>text/vnd.less</mime-type>
 	</mime-mapping>
+	
+	<session-config>
+      <session-timeout>1440</session-timeout>
+</session-config>
 </web-app>
