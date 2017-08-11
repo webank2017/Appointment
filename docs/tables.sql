@@ -5,6 +5,7 @@ USE appointment;
 DROP TABLE IF EXISTS `YB_PersonInfo`;  
 CREATE TABLE `YB_PersonInfo` (  
   userid INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
+  openid VARCHAR(64) DEFAULT NULL COMMENT 'openId',
   username VARCHAR(45) NOT NULL COMMENT '用户姓名',
   gender INT(1) NOT NULL COMMENT '性别 1:男 0:女',
   phonenumber VARCHAR(20) NOT NULL COMMENT '电话号码',
