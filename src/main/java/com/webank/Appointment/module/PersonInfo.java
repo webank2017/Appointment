@@ -8,7 +8,7 @@ import java.sql.Timestamp;
  */
 public class PersonInfo {
 
-	private int user_id;//'主键'
+	private int userId;//'主键'
 	private String username;//'用户姓名'
 	private int gender;//'性别 1:男 0:女'
 	private String phonenumber;// '电话号码'
@@ -16,14 +16,14 @@ public class PersonInfo {
 	/**
 	 * @return the user_id
 	 */
-	public int getUser_id() {
-		return user_id;
+	public int getUserId() {
+		return userId;
 	}
 	/**
 	 * @param user_id the user_id to set
 	 */
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	/**
 	 * @return the username

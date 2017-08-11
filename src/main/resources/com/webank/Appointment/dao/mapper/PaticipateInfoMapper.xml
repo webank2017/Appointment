@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webank.Appointment.dao.PaticipateInfoDao">
+
+
+	<select id="getPaticipateByActiIdUid" parameterType="java.util.Map" resultMap="paticipateInfo">
+    	select * from yb_paticipateinfo where activityid=#{0} and userid=#{1};
+    </select>
+
+	<select id="getPaticipateByActiId" parameterType="int" resultMap="paticipateInfo">
+    	select * from yb_paticipateinfo where activityid=#{activityId};
+    </select>
+
+	<select id="getPaticipateByUserId" parameterType="int" resultMap="paticipateInfo">
+    	select * from yb_paticipateinfo where userid=#{userId};
+    </select>
+	
+
+	<insert id="addPaticipateInfo" parameterType="PaticipateInfo" keyProperty="paticipate" useGeneratedKeys="true">
+		insert into yb_paticipateinfo(activityid,userid,number,paticipatetime) 
+		values(#{activityId},#{userId},#{number},#{paticipateTime});
+	</insert>
+	
+	
+
+	<delete id="deletePaticipateInfo" parameterType="java.util.Map">
+	delete from yb_paticipateinfo where activityid=#{0} and userid=#{1};
+	</delete>
+
+	
+
+	<update id="modifyPaticipateInfo" parameterType="PaticipateInfo">
+	update yb_paticipateinfo set number=#{number}
+	where activityid = #{activityId} and userid=#{userId};
+	</update>
+	
+	
+    <resultMap type="PaticipateInfo" id="paticipateInfo">  
+        <id column="paticipate" property="paticipate"/>  
+        <result column="activityid" property="activityId"/>  
+        <result column="userid" property="userId"/>  
+        <result column="number" property="number"/>  
+        <result column="paticipatetime" property="paticipateTime"/>  
+    </resultMap>  
+</mapper>

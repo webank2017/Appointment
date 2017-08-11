@@ -29,7 +29,7 @@ public interface PaticipateInfoDao {
 	 * @param ActivityId
 	 * @return
 	 */
-	List<PaticipateInfo> getPaticipateByActiId(int ActivityId);
+	List<PaticipateInfo> getPaticipateByActiId(int activityId);
 	
 
 	/**

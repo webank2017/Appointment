@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.webank.Appointment.dao.PersonInfoDao">
+
+
+
+	<select id="getPersonById" parameterType="int" resultMap="personInfo">
+    	select * from yb_personinfo where userid=#{userId};
+    </select>
+
+
+	<select id="getPersonByName" parameterType="String" resultMap="personInfo">
+    	select * from yb_personinfo where username like concat(concat('%',#{username}),'%');
+    </select>
+
+
+	<select id="getPersonByPhone" parameterType="String" resultMap="personInfo">
+    	select * from yb_personinfo where phonenumber = #{phone};
+    </select>
+	
+
+	<insert id="addPerson" parameterType="PersonInfo" keyProperty="userid" useGeneratedKeys="true">
+		insert into yb_personinfo(username,gender,phonenumber) 
+		values(#{username},#{gender},#{phonenumber});
+	</insert>
+	
+
+
+	<delete id="deletePerson" parameterType="int">
+	delete from yb_personinfo where userid=#{userId};
+	</delete>
+
+	<update id="modifyPerson" parameterType="PersonInfo">
+	update yb_personinfo set username=#{username},gender=#{gender},phonenumber=#{phonenumber}
+	where userid = #{userId};
+	</update>
+	
+	
+    <resultMap type="PersonInfo" id="personInfo">  
+        <id column="userid" property="userId"/>  
+        <result column="username" property="username"/>  
+        <result column="gender" property="gender"/>  
+        <result column="phonenumber" property="phonenumber"/>  
+    </resultMap>  
+</mapper>

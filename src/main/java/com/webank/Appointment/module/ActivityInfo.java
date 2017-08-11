@@ -9,7 +9,7 @@ import java.sql.Timestamp;
 public class ActivityInfo {
 
 	private int activityId;//活动Id
-	private int activityTheme;//活动主题
+	private String activityTheme;//活动主题
 	private int userId;//用户Id
 	private Timestamp launchTime;//'活动发布时间',
 	private Timestamp startTime ;// '活动开始时间',
@@ -46,13 +46,13 @@ public class ActivityInfo {
 	/**
 	 * @return the activityTheme
 	 */
-	public int getActivityTheme() {
+	public String getActivityTheme() {
 		return activityTheme;
 	}
 	/**
 	 * @param activityTheme the activityTheme to set
 	 */
-	public void setActivityTheme(int activityTheme) {
+	public void setActivityTheme(String activityTheme) {
 		this.activityTheme = activityTheme;
 	}
 	/**

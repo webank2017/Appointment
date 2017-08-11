@@ -153,7 +153,7 @@ public interface ActivityInfoDao {
 	
 	
 	/**
-	 * 修改活动
+	 * 删除活动
 	 * @param id
 	 * @return
 	 */
@@ -167,6 +167,7 @@ public interface ActivityInfoDao {
 	 * @return
 	 */
 	int modifyActivity(ActivityInfo activity);
+	
 	
 	
 }

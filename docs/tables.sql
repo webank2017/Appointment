@@ -1,12 +1,13 @@
-DROP DATABASE appointment;
+DROP DATABASE IF EXISTS appointment;
 CREATE DATABASE IF NOT EXISTS appointment DEFAULT CHARSET utf8 COLLATE utf8_general_ci; 
+USE appointment;
 
 DROP TABLE IF EXISTS `YB_PersonInfo`;  
 CREATE TABLE `YB_PersonInfo` (  
   userid INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   username VARCHAR(45) NOT NULL COMMENT '用户姓名',
   gender INT(1) NOT NULL COMMENT '性别 1:男 0:女',
-  phonenumber INT(11) NOT NULL COMMENT '电话号码',
+  phonenumber VARCHAR(20) NOT NULL COMMENT '电话号码',
   PRIMARY KEY (`userid`)  
 ) ENGINE=INNODB  DEFAULT CHARSET=utf8 COMMENT '用户基本信息表';
 CREATE INDEX index_username ON YB_PersonInfo(username);

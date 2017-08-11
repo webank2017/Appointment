@@ -6,206 +6,120 @@
 <mapper namespace="com.webank.Appointment.dao.ActivityInfoDao">
 
 	<select id="getActivityById" parameterType="int" resultMap="activityInfo">
-    	select * from activityinfo where activityid=#{activityId};
+    	select * from yb_activityinfo where activityid=#{activityId};
     </select>
 
 	<select id="getActivitiesByTheme" parameterType="String" resultMap="activityInfo">
-    	select * from activityinfo where activitytheme like %#{activityId}%;
+    	select * from yb_activityinfo where activitytheme like concat(concat('%',#{theme}),'%');
     </select>
     
 	<select id="getActivitiesByUserId" parameterType="int" resultMap="activityInfo">
-    	select * from activityinfo where activityid=#{userId};
+    	select * from yb_activityinfo where userid=#{userId};
     </select>
-	/**
-	 * 通过时间区域获取
-	 * @param from
-	 * @param to
-	 * @return
-	 */
-	List<ActivityInfo> getActivitiesByTime(Timestamp from,Timestamp to);
-	
-	/**
-	 * 通过类型获取
-	 * @param type
-	 * @return
-	 */
-	List<ActivityInfo> getActivitiesByType(int type);
-	
-	/**
-	 * 通过地点获取
-	 * @param place
-	 * @return
-	 */
-	List<ActivityInfo> getActivitiesByPlace(String place);
-	
-	/**
-	 * 通过坐标获取
-	 * @param x
-	 * @param y
-	 * @return
-	 */
-	List<ActivityInfo> getActivitiesByXY(double x,double y);
-	
-	/**
-	 * 通过描述获取
-	 * @param desc
-	 * @return
-	 */
-	List<ActivityInfo> getActivitiesByDesc(String desc);
-	
-	/**
-	 * 通过状态获取
-	 * @param state
-	 * @return
-	 */
-	List<ActivityInfo> getActivitiesByState(int state);
-	
-	//---------------------------分状态
-	
-	/**
-	 * 通过主题和状态获取
-	 * @param theme
-	 * @param state
-	 * @return
-	 */
-	List<ActivityInfo> getActivitiesByThemeState(String theme,int state);
-	
-	/**
-	 * 通过用户Id和状态获取
-	 * @param userId
-	 * @param state
-	 * @return
-	 */
-	List<ActivityInfo> getActivitiesByUserIdState(int userId,int state);
-	
-	/**
-	 * 通过时间和状态获取
-	 * @param from
-	 * @param to
-	 * @param state
-	 * @return
-	 */
-	List<ActivityInfo> getActivitiesByTimeState(Timestamp from,Timestamp to,int state);
-	
-	/**
-	 * 通过类型和状态获取
-	 * @param type
-	 * @param state
-	 * @return
-	 */
-	List<ActivityInfo> getActivitiesByTypeState(int type,int state);
-	
-	/**
-	 * 通过地点和状态获取
-	 * @param place
-	 * @param state
-	 * @return
-	 */
-	List<ActivityInfo> getActivitiesByPlaceState(String place,int state);
-	
-	/**
-	 * 通过坐标和状态获取
-	 * @param x
-	 * @param y
-	 * @param state
-	 * @return
-	 */
-	List<ActivityInfo> getActivitiesByXYState(double x,double y,int state);
-	
-	/**
-	 * 通过描述和状态获取
-	 * @param desc
-	 * @param state
-	 * @return
-	 */
-	List<ActivityInfo> getActivitiesByDescState(String desc,int state);
-	
-	//--------------------------- 增加
-	
-	/**
-	 * 添加活动
-	 * @param activity
-	 * @return
-	 */
-	int addActivity(ActivityInfo activity);
-	//---------------------------删除
-	
-	
-	/**
-	 * 修改活动
-	 * @param id
-	 * @return
-	 */
-	int deleteActivitiesById(int id);
 
-	//---------------------------修改
+	<select id="getActivitiesByTime" resultMap="activityInfo" parameterType="java.util.Map">
+    	select * from yb_activityinfo 
+    	<where>
+    	<if test="startTime!=null and startTime!='' ">
+    	starttime>=#{startTime}
+    	</if>
+    	<if test="endTime!=null and endTime!='' ">
+    	endtime &lt;=#{endTime}
+    	</if>
+    	</where>
+    </select>
+
+	<select id="getActivitiesByType" parameterType="int" resultMap="activityInfo">
+    	select * from yb_activityinfo where activitytype=#{type};
+    </select>
 	
-	/**
-	 * 修改活动
-	 * @param activityId
-	 * @return
-	 */
-	int modifyActivity(ActivityInfo activity);
-	<select id="getUserByUsername" parameterType="String" resultMap="user">
-    	select * from user where username=#{username};
+	<select id="getActivitiesByPlace" parameterType="String" resultMap="activityInfo">
+    	select * from yb_activityinfo where activityplace=#{place};
     </select>
-    <select id="getUserByUserId" parameterType="int" resultMap="user">
-    	select * from user where user_id=#{userId};
+
+	<select id="getActivitiesByXY" resultMap="activityInfo">
+    	select * from yb_activityinfo where activityplace_x=#{0} and activityplace_y=#{1};
     </select>
-    <insert id="addUser" parameterType="User" keyProperty="user_id" useGeneratedKeys="true">
-		insert into user(username,password,email,register_date) values(#{username}, #{password}, #{email},#{register_date})
+
+	<select id="getActivitiesByDesc" parameterType="String" resultMap="activityInfo">
+    	select * from yb_activityinfo where activityinfo like  concat(concat('%',#{desc}),'%');
+    </select>
+
+	<select id="getActivitiesByState" parameterType="int" resultMap="activityInfo">
+    	select * from yb_activityinfo where activitystate = #{state};
+    </select>
+
+	
+	<select id="getActivitiesByThemeState" resultMap="activityInfo">
+    	select * from yb_activityinfo where activitytheme = #{0} and activitystate=#{1};
+    </select>
+	
+	<select id="getActivitiesByUserIdState" resultMap="activityInfo">
+    	select * from yb_activityinfo where userid = #{0} and activitystate=#{1};
+    </select>
+
+	<select id="getActivitiesByTimeState" resultMap="activityInfo">
+    	select * from yb_activityinfo where starttime > #{0} and endtime &lt;#{1} and activitystate=#{2};
+    </select>
+
+	<select id="getActivitiesByTypeState" resultMap="activityInfo">
+    	select * from yb_activityinfo where activitytype=#{0} and activitystate=#{1};
+    </select>
+	
+	<select id="getActivitiesByPlaceState" resultMap="activityInfo">
+    	select * from yb_activityinfo where activityplace=#{0} and activitystate=#{1};
+    </select>
+
+	<select id="getActivitiesByXYState" resultMap="activityInfo">
+    	select * from yb_activityinfo where activityplace_x=#{0} and activityplace_y=#{1} and activitystate=#{2};
+    </select>
+
+	<select id="getActivitiesByDescState" resultMap="activityInfo">
+    	select * from yb_activityinfo where activityinfo=#{0} and activitystate=#{1};
+    </select>
+	
+	
+	<insert id="addActivity" parameterType="ActivityInfo" keyProperty="activityid" useGeneratedKeys="true">
+		insert into yb_activityinfo(activitytheme,userid,starttime,endtime,activitytype,activityplace,detailplace,activityplace_x,activityplace_y,numbernow,numberup,activityinfo,contacter,contacternumber,genderrequire,ifrequire,password,comments) 
+		values(#{activityTheme}, #{userId}, #{startTime},#{endTime},#{activityType},#{activityPlace},#{detailPlace},#{activityPlace_x},#{activityPlace_y},#{numberNow},#{numberUp},#{activityInfo},#{contacter},#{contacterNumber},#{genderRequire},#{ifRequire},#{password},#{comments});
 	</insert>
-	<update id="updateUserPassword" parameterType="User">
-	update user set password = #{password}
-		where username = #{username};
-	</update>
-	<update id="updateUserVisitInfo" parameterType="User">
-	update user set last_ip = #{lastIp},last_visit = #{lastVisit}
-		where username = #{username};
-	</update>
-	<delete id="deleteUserByUsername" parameterType="String">
-	delete from user where username=#{username};
+	
+
+	<delete id="deleteActivitiesById" parameterType="int">
+	delete from yb_activityinfo where activityid=#{id};
 	</delete>
-	
-	<select id="getUsers" resultMap="user">
-		select * from user order by register_date desc
-	</select>
-	
-	<select id="getAddedUsers" resultMap="user" parameterType="java.sql.Timestamp">
-		select * from user where register_date>#{adminLastLoginTime};
-	</select>
-	
-	<select id="isEmailUsed" resultMap="user" parameterType="String">
-		select * from user where email=#{email} limit 1;
-	</select>
-	
-	<update id="updateUserEmail" parameterType="User">
-		update user set email = #{email}
-		where username = #{username}
+
+	<update id="modifyActivity" parameterType="ActivityInfo">
+	update yb_activityinfo set activitytheme=#{activityTheme},userid=#{userId},
+	starttime=#{startTime},endtime=#{endTime},activitytype=#{activityType},
+	activityplace=#{activityPlace},detailplace=#{detailPlace},activityplace_x=#{activityPlace_x},
+	activityplace_y=#{activityPlace_y},activitystate=#{activityState},numbernow=#{numberNow},numberup=#{numberUp},
+	activityinfo=#{activityInfo},contacter=#{contacter},contacternumber=#{contacterNumber},
+	genderrequire=#{genderRequire},ifrequire=#{ifRequire},password=#{password},comments=#{comments}
+	where activityid = #{activityId};
 	</update>
-	
 	
     <resultMap type="ActivityInfo" id="activityInfo">  
-        <id column="activityId" property="activityid"/>  
-        <result column="activityTheme" property="activitytheme"/>  
-        <result column="userId" property="userid"/>  
-        <result column="launchTime" property="launchtime"/>  
-        <result column="startTime" property="starttime"/>  
-        <result column="endTime" property="endtime"/>  
-        <result column="activityType" property="activitytype"/>  
-        <result column="activityPlace" property="activityplace"/>  
-        <result column="detailPlace" property="detailplace"/>  
-        <result column="activityPlace_x" property="activityplace_x"/>  
-        <result column="activityplace_y" property="activityplace_y"/>  
-        <result column="numberNow" property="numbernow"/>  
-        <result column="numberUp" property="numberup"/>  
-        <result column="activityInfo" property="activityInfo"/>  
-        <result column="contacter" property="contacter"/>  
-        <result column="contacterNumber" property="contacternumber"/>
-        <result column="genderRequire" property="genderrequire"/>  
-        <result column="activityState" property="activitystate"/>  
-        <result column="ifRequire" property="ifrequire"/>  
-        <result column="password" property="password"/>  
-        <result column="comments" property="comments"/>  
+        <id property="activityId" column="activityid"/>  
+        <result property="activityTheme" column="activitytheme"/>  
+        <result property="userId" column="userid"/>  
+        <result property="launchTime" column="launchtime"/>  
+        <result property="startTime" column="starttime"/>  
+        <result property="endTime" column="endtime"/>  
+        <result property="activityType" column="activitytype"/>  
+        <result property="activityPlace" column="activityplace"/>  
+        <result property="detailPlace" column="detailplace"/>  
+        <result property="activityPlace_x" column="activityplace_x"/>  
+        <result property="activityPlace_y" column="activityplace_y"/>  
+        <result property="numberNow" column="numbernow"/>  
+        <result property="numberUp" column="numberup"/>  
+        <result property="activityInfo" column="activityInfo"/>  
+        <result property="contacter" column="contacter"/>  
+        <result property="contacterNumber" column="contacternumber"/>
+        <result property="genderRequire" column="genderrequire"/>  
+        <result property="activityState" column="activitystate"/>  
+        <result property="ifRequire" column="ifrequire"/>  
+        <result property="password" column="password"/>  
+        <result property="comments" column="comments"/>  
     </resultMap>  
 </mapper>

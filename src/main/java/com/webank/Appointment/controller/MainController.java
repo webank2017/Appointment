@@ -8,9 +8,15 @@
  */
 package com.webank.Appointment.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.webank.Appointment.service.ActivityService;
 
 
 /**
@@ -24,8 +30,10 @@ public class MainController {
 	 * 欢迎页面
 	 * @return void
 	 */
+	@Autowired
+	protected ActivityService userService;
 	@RequestMapping(value = "")
-	public ModelAndView welcome() {
+	public ModelAndView welcome(HttpServletRequest request, HttpServletResponse respons) {
 		ModelAndView modelAndView = new ModelAndView("/welcome");
 		return modelAndView;
 	}

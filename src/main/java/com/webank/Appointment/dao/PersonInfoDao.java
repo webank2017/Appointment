@@ -29,7 +29,7 @@ public interface PersonInfoDao {
 	 * @param Name
 	 * @return
 	 */
-	List<PersonInfo> getPersonByName(String Name);
+	List<PersonInfo> getPersonByName(String username);
 	
 
 
