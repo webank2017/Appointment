@@ -7,6 +7,9 @@
 
 	</head>
 	<body>
-欢迎使用
-	</body>
+进入主页面<br/>  
+    你的基本信息如下：<br/>  
+    id:${userId}<br/>  
+    用户名:${username}<br/>  
+    密码:${password}<br/>  
 </html>
