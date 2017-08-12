@@ -32,6 +32,7 @@ import com.webank.Appointment.module.ActivityInfo;
 import com.webank.Appointment.module.PaticipateInfo;
 import com.webank.Appointment.module.PersonInfo;
 import com.webank.Appointment.service.ActivityService;
+import com.webank.Appointment.utils.SessionUtil;
 import com.webank.Appointment.utils.UserIdDecoder;
 
 
@@ -146,7 +147,15 @@ public class ActivityController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "launch")
-	public HashMap<String, Object> launchAct(HttpServletRequest request, String thirdSession, ActivityInfo activityInfo){
+	public HashMap<String, Object> launchAct(HttpServletRequest request, ActivityInfo activityInfo){
+		String thirdSession = request.getParameter("thirdSession");
+		
+		//test
+		logger.info("3rd session get: "+thirdSession);
+
+		//SessionUtil.setAttribute(request.getSession(), thirdSession, "+uJzelpAvFoYQNaXv+vj6g==,obJcA0emB2X1SNV7eAE5uyPuvlJ0");
+		//
+		
 		HashMap<String, Object> return_data = new HashMap<String, Object>();
 		activityInfo.setActivityState(0);
 		Date nowDate = new Date();

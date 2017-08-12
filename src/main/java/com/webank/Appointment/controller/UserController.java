@@ -92,7 +92,7 @@ public class UserController {
 			
 			StringBuffer thirdSessValueBuffer = new StringBuffer();
 			thirdSessValueBuffer.append(session_key);
-			thirdSessValueBuffer.append("+");
+			thirdSessValueBuffer.append(",");
 			thirdSessValueBuffer.append(openid);
 			SessionUtil.setAttribute(request.getSession(), third_sessionString, thirdSessValueBuffer.toString());
 			

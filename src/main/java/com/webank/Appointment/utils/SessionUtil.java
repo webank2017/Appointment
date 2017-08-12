@@ -69,9 +69,9 @@ public class SessionUtil {
 		}
 		logger.info(valueString);
 		String val = valueString.toString();
-		String[] items = val.split("\\+");
-		logger.info("sesskey"+String.valueOf(items[0]));
-		logger.info("openid"+String.valueOf(items[1]));
+		String[] items = val.split(",");
+		logger.info("sesskey="+String.valueOf(items[0]));
+		logger.info("openid="+String.valueOf(items[1]));
 		if (items != null && items.length == 2){
 			return items[1];
 		}
