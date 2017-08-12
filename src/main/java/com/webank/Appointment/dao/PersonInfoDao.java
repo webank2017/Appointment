@@ -13,6 +13,9 @@ import com.webank.Appointment.module.PersonInfo;
 public interface PersonInfoDao {
 	
 	
+	List<PersonInfo> getActivityJoiner(int activityId);
+	
+	
 	//---------------------------查找
 	
 

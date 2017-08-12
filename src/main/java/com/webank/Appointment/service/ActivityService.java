@@ -1,6 +1,10 @@
 package com.webank.Appointment.service;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+
+import com.webank.Appointment.controller.common.Page;
+import com.webank.Appointment.module.ActivityInfo;
+import com.webank.Appointment.module.PersonInfo;
 
 /**
  * @author 
@@ -8,6 +12,17 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 public interface ActivityService {
+
+	Page<ActivityInfo> getActivityList(int pageNo, int pageSize,
+			int userId);
+
+	ActivityInfo getActivity(int activityId);
+
+	List<PersonInfo> getJoiner(int activityId);
+
+	List<ActivityInfo> getActivityByUId(int userId);
+
+	List<ActivityInfo> getMyPaticipate(int userId);
 
 
 	

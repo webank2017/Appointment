@@ -6,7 +6,10 @@
 <mapper namespace="com.webank.Appointment.dao.PersonInfoDao">
 
 
-
+	<select id="getActivityJoiner" parameterType="int" resultMap="personInfo">
+    	SELECT * FROM yb_personinfo WHERE userid IN (
+    	SELECT yb_personinfo.userid FROM yb_personinfo,yb_activityinfo WHERE yb_personinfo.userid=yb_activityinfo.userid AND yb_activityinfo.activityid=#{activityId});
+ </select>
 	<select id="getPersonById" parameterType="int" resultMap="personInfo">
     	select * from yb_personinfo where userid=#{userId};
     </select>
