@@ -146,9 +146,9 @@ public class ActivityController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "launch")
-	public HashMap<String, Object> launchAct(HttpServletRequest request, ActivityInfo activityInfo){
-		String thirdSession = request.getParameter("thirdSession");
+	@RequestMapping(value = "launch/{thirdSession}")
+	public HashMap<String, Object> launchAct(@PathVariable String thirdSession,HttpServletRequest request, ActivityInfo activityInfo){
+		//String thirdSession = request.getParameter("thirdSession");
 		
 		//test
 		logger.info("3rd session get: "+thirdSession);
