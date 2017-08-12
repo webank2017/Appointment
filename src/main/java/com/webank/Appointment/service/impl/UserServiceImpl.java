@@ -31,20 +31,13 @@ public class UserServiceImpl implements UserService {
 	 * 判断一个用户是否已经入库
 	 */
 	public boolean isExist(String openid){
-		try {
-			PersonInfo person = personInfoDao.getPersonByOpenId(openid);
-			if (person == null){
+			int count = personInfoDao.countPersonByOpenId(openid);
+			if (count < 1){
 				return false;
 			}
 			else {
 				return true;
 			}
-		}
-		catch (Exception ex){
-			ex.printStackTrace();
-			logger.error(ex.toString());
-			return false;
-		}
 	}
 	
 	public PersonInfo getUserByOpenid(String openid){

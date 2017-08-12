@@ -32,6 +32,8 @@ public interface PersonInfoDao {
 	 * @return
 	 */
 	PersonInfo getPersonByOpenId(String openId);
+	
+	int countPersonByOpenId(String openId);
 	/**
 	 * 通过名字获取
 	 * @param Name
