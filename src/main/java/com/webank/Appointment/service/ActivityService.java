@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.webank.Appointment.controller.common.Page;
 import com.webank.Appointment.module.ActivityInfo;
+import com.webank.Appointment.module.PaticipateInfo;
 import com.webank.Appointment.module.PersonInfo;
 
 /**
@@ -25,5 +26,9 @@ public interface ActivityService {
 	List<ActivityInfo> getMyPaticipate(int userId);
 
 	boolean addActivity(ActivityInfo activityInfo);
+
+	boolean join(PaticipateInfo paticipateInfo);
+
+	boolean withdrawActivity(int activityId, int userId);
 	
 }

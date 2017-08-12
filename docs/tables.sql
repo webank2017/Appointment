@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS appointment;
 CREATE DATABASE IF NOT EXISTS appointment DEFAULT CHARSET utf8 COLLATE utf8_general_ci; 
 USE appointment;
 
-DROP TABLE IF EXISTS `YB_PersonInfo`;  
+DROP TABLE IF EXISTS `yb_personinfo`;  
 CREATE TABLE `YB_PersonInfo` (  
   userid INT(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
   openid VARCHAR(64) DEFAULT NULL COMMENT 'openId',
@@ -47,6 +47,9 @@ DROP TABLE IF EXISTS `YB_PaticipateInfo`;
 CREATE TABLE `YB_PaticipateInfo`(
 paticipate INT(11) NOT NULL AUTO_INCREMENT COMMENT ' 参与Id 主键',
 activityid INT(11) NOT NULL COMMENT '活动Id，外键',
+username VARCHAR(45) COMMENT '用户姓名',
+phone VARCHAR(20)  COMMENT '电话号码',
+gender INT(1)  COMMENT '性别 1:男 0:女',
 userid INT(11) NOT NULL COMMENT '用户Id,外键',
 number INT(9) NOT NULL DEFAULT 1 COMMENT '报名人数',
 paticipatetime TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '报名时间',

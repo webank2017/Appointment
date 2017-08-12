@@ -28,7 +28,7 @@
         SELECT yb_activityinfo.activityid FROM yb_activityinfo JOIN yb_paticipateinfo ON yb_activityinfo.activityid=yb_paticipateinfo.activityid WHERE yb_paticipateinfo.userid=#{0})
         AND endtime >#{3} AND activitystate=1 ORDER BY endtime ASC LIMIT #{1},#{2};
    </select>
-    	
+
 	<select id="getActivityById" parameterType="int" resultMap="activityInfo">
     	select * from yb_activityinfo where activityid=#{activityId};
     </select>

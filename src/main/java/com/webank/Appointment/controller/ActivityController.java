@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +29,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.webank.Appointment.controller.common.Page;
 import com.webank.Appointment.module.ActivityInfo;
+import com.webank.Appointment.module.PaticipateInfo;
 import com.webank.Appointment.module.PersonInfo;
 import com.webank.Appointment.service.ActivityService;
 import com.webank.Appointment.utils.UserIdDecoder;
@@ -114,7 +116,28 @@ public class ActivityController {
 		result.addAll(activity);
 		return result.toJSONString();
 	}
+	/**
+	 * 加入活动
+	 * @param userId
+	 * @param activityId
+	 * @param request
+	 * @param respons
+	 * @return
+	 */
+	@RequestMapping(value = "/join")
+	@ResponseBody
+	public Map<String,Object> joinActivity(HttpServletRequest request, HttpServletResponse respons,PaticipateInfo paticipateInfo) {
+		HashMap<String, Object> return_data = new HashMap<String, Object>();
+
+		if(activiyService.join(paticipateInfo)){
+			return_data.put("errMsg", "ok!");
+		}
+		else return_data.put("errMsg", "join failed!");
+		return_data.put("data", new ArrayList<String>());
+		return return_data;
+	}
 	
+
 	/**
 	 * 发起活动
 	 * @param request
@@ -144,6 +167,35 @@ public class ActivityController {
 		}
 		else {
 			return_data.put("errMsg", "SESSION_ERROR");
+		}
+		return_data.put("data", new ArrayList<String>());
+		return return_data;
+	}
+	/**
+	 * 退出活动
+	 * @param request
+	 * @param activityInfo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/withdraw")
+	public HashMap<String, Object> withdrawActivity(HttpServletRequest request){
+		HashMap<String, Object> return_data = new HashMap<String, Object>();
+		String activityIdString=request.getParameter("activityId");
+		String userIdString=request.getParameter("userId");
+		int activityId=0; int userId=0;
+		try{
+			activityId=Integer.parseInt(activityIdString);
+			userId=Integer.parseInt(userIdString);
+		}catch(Exception ex){
+			ex.printStackTrace();
+			return return_data;
+		}
+		if (activiyService.withdrawActivity(activityId,userId)){
+			return_data.put("errMsg", "ok");
+		}
+		else {
+			return_data.put("errMsg", "withdraw fail");
 		}
 		return_data.put("data", new ArrayList<String>());
 		return return_data;
