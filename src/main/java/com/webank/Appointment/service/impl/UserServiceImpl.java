@@ -46,4 +46,8 @@ public class UserServiceImpl implements UserService {
 			return false;
 		}
 	}
+	
+	public PersonInfo getUserByOpenid(String openid){
+		return personInfoDao.getPersonByOpenId(openid);
+	}
 }

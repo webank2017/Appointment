@@ -25,13 +25,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
-import com.webank.Appointment.module.ActivityInfo;
 import com.webank.Appointment.module.PersonInfo;
-import com.webank.Appointment.service.ActSvc;
 import com.webank.Appointment.service.UserService;
 import com.webank.Appointment.utils.HttpUtil;
 import com.webank.Appointment.utils.SessionUtil;
 import com.webank.Appointment.utils.StringUtil;
+import com.webank.Appointment.utils.UserIdDecoder;
 import com.webank.Appointment.utils.WXThirdSessionUtil;
 
 
@@ -46,6 +45,9 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private UserIdDecoder userIdDecoder;
+	
 	/*@Autowired
 	private ActSvc actsvc;*/
 	
@@ -55,7 +57,7 @@ public class UserController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "login")
-	public HashMap<String, String> login(HttpServletRequest request, String code) {
+	public HashMap<String, String> login(HttpServletRequest request, String code) {	
 		HashMap<String, String> map = new HashMap<String, String>();
 		if (code == null || StringUtil.isEmptyOrBlank(code)){
 			map.put("errMsg", "INVALID_CODE");
@@ -96,6 +98,7 @@ public class UserController {
 			
 			//System.out.println("session_key:   "+session_key);
 			//System.out.println("openid:    "+openid);
+			logger.info(SessionUtil.getAttrivute(request.getSession(), third_sessionString));
 			logger.info("[session_key=" + session_key + "]");
 			logger.info("[openid=" + openid + "]");
 			
