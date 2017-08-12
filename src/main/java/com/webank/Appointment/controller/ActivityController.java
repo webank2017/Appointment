@@ -10,6 +10,7 @@ package com.webank.Appointment.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sound.midi.MidiDevice.Info;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +62,11 @@ public class ActivityController {
 	 */
 	@RequestMapping(value = "/home/{userId}")
 	@ResponseBody
-	public String activityList(@PathVariable int userId,HttpServletRequest request, HttpServletResponse respons) {
-		Page<ActivityInfo> activityList=activiyService.getActivityList(Page.DEFAULT_PAGE_NO,Page.DEFAULT_PAGE_SIZE,userId);
+	public String activityList(@PathVariable String userId,HttpServletRequest request, HttpServletResponse respons) {
+		logger.info("3rd session: " + userId);
+		int userid = userIdDecoder.getUserId(userId);
+		logger.info("userid = " + String.valueOf(userid));
+		Page<ActivityInfo> activityList=activiyService.getActivityList(Page.DEFAULT_PAGE_NO,Page.DEFAULT_PAGE_SIZE,userid);
 		JSONObject result = (JSONObject) JSONObject.toJSON(activityList);
 		return result.toJSONString();
 	}
@@ -74,9 +79,9 @@ public class ActivityController {
 	 * @param respons
 	 * @return
 	 */
-	@RequestMapping(value = "/detail/{userId}/{activityId}")
+	@RequestMapping(value = "/detail/{activityId}")
 	@ResponseBody
-	public String activityDetail(@PathVariable int userId,@PathVariable int activityId,HttpServletRequest request, HttpServletResponse respons) {
+	public String activityDetail(@PathVariable int activityId,HttpServletRequest request, HttpServletResponse respons) {
 		ActivityInfo activity=activiyService.getActivity(activityId);
 		List<PersonInfo> joiner=activiyService.getJoiner(activityId);
 		JSONObject result = new JSONObject();
@@ -95,8 +100,12 @@ public class ActivityController {
 	 */
 	@RequestMapping(value = "/myLead/{userId}")
 	@ResponseBody
-	public String MyActivity(@PathVariable int userId,HttpServletRequest request, HttpServletResponse respons) {
-		List<ActivityInfo> activity=activiyService.getActivityByUId(userId);
+	public String MyActivity(@PathVariable String userId,HttpServletRequest request, HttpServletResponse respons) {
+		logger.info("3rd session: " + userId);
+		int userid = userIdDecoder.getUserId(userId);
+		logger.info("userid = " + String.valueOf(userid));
+		
+		List<ActivityInfo> activity=activiyService.getActivityByUId(userid);
 		JSONArray result = new JSONArray();
 		result.addAll(activity);
 		return result.toJSONString();
@@ -112,8 +121,12 @@ public class ActivityController {
 	 */
 	@RequestMapping(value = "/myJoin/{userId}")
 	@ResponseBody
-	public String MyPaticipate(@PathVariable int userId,HttpServletRequest request, HttpServletResponse respons) {
-		List<ActivityInfo> activity=activiyService.getMyPaticipate(userId);
+	public String MyPaticipate(@PathVariable String userId,HttpServletRequest request, HttpServletResponse respons) {
+		logger.info("3rd session: " + userId);
+		int userid = userIdDecoder.getUserId(userId);
+		logger.info("userid = " + String.valueOf(userid));
+		
+		List<ActivityInfo> activity=activiyService.getMyPaticipate(userid);
 		JSONArray result = new JSONArray();
 		result.addAll(activity);
 		return result.toJSONString();
@@ -128,9 +141,21 @@ public class ActivityController {
 	 */
 	@RequestMapping(value = "/join")
 	@ResponseBody
-	public Map<String,Object> joinActivity(HttpServletRequest request, HttpServletResponse respons,PaticipateInfo paticipateInfo) {
+	public Map<String,Object> joinActivity(HttpServletRequest request, HttpServletResponse respons) {
 		HashMap<String, Object> return_data = new HashMap<String, Object>();
-
+		
+		logger.info("3rd session: " + request.getParameter("userId"));
+		int userid = userIdDecoder.getUserId(request.getParameter("userId"));
+		logger.info("userid = " + String.valueOf(userid));
+		
+		PaticipateInfo paticipateInfo = new PaticipateInfo();
+		paticipateInfo.setActivityId(Integer.parseInt(request.getParameter("activityId")));
+		paticipateInfo.setUsername(request.getParameter("username"));
+		paticipateInfo.setUserId(userid);
+		paticipateInfo.setPhone(request.getParameter("phone"));
+		paticipateInfo.setGender(Integer.parseInt(request.getParameter("gender")));
+		paticipateInfo.setNumber(1);//request.getParameter("number");
+		paticipateInfo.setPaticipateTime(new Timestamp(System.currentTimeMillis()));
 		if(activiyService.join(paticipateInfo)){
 			return_data.put("errMsg", "ok!");
 		}
@@ -154,15 +179,15 @@ public class ActivityController {
 		
 		ActivityInfo info = new ActivityInfo();
 		info.setActivityTheme(URLDecoder.decode(request.getParameter("activityTheme"),"utf-8") );
-		info.setContacter(request.getParameter("contacter"));
+		info.setContacter(URLDecoder.decode(request.getParameter("contacter"),"utf-8"));
 		info.setStartTime(request.getParameter("startTime"));
 		info.setEndTime(request.getParameter("endTime"));
 		info.setActivityType(Integer.parseInt(request.getParameter("activityType")));
-		info.setActivityPlace(request.getParameter("activityPlace"));
+		info.setActivityPlace(URLDecoder.decode(request.getParameter("activityPlace"),"utf-8"));
 		info.setActivityPlace_x(Double.parseDouble(request.getParameter("activityPlace_x")));
 		info.setActivityPlace_y(Double.parseDouble(request.getParameter("activityPlace_y")));
 		info.setNumberUp(Integer.parseInt(request.getParameter("numberUp")));
-		info.setActivityInfo(request.getParameter("activityInfo"));
+		info.setActivityInfo(URLDecoder.decode(request.getParameter("activityInfo"),"utf-8"));
 		info.setIfRequire(Integer.parseInt(request.getParameter("ifRequire")));
 		info.setContacterNumber(request.getParameter("contacterNumber"));
 		info.setGenderRequire(Integer.parseInt(request.getParameter("genderRequire")));
@@ -209,6 +234,8 @@ public class ActivityController {
 		HashMap<String, Object> return_data = new HashMap<String, Object>();
 		String activityIdString=request.getParameter("activityId");
 		String userIdString=request.getParameter("userId");
+		int userid = userIdDecoder.getUserId(userIdString);
+		logger.info("userid = " + String.valueOf(userid));
 		int activityId=0; int userId=0;
 		try{
 			activityId=Integer.parseInt(activityIdString);
