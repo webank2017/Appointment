@@ -8,6 +8,10 @@
  */
 package com.webank.Appointment.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -107,5 +111,28 @@ public class ActivityController {
 		return result.toJSONString();
 	}
 	
+	/**
+	 * 发起活动
+	 * @param request
+	 * @param activityInfo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "launch")
+	public HashMap<String, Object> launchAct(HttpServletRequest request, ActivityInfo activityInfo){
+		HashMap<String, Object> return_data = new HashMap<String, Object>();
+		activityInfo.setActivityState(0);
+		Date nowDate = new Date();
+		activityInfo.setLaunchTime((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(nowDate));
+		activityInfo.setNumberNow(0);
+		if (activiyService.addActivity(activityInfo)){
+			return_data.put("errMsg", "ok");
+		}
+		else {
+			return_data.put("errMsg", "launch fail");
+		}
+		return_data.put("data", new ArrayList<String>());
+		return return_data;
+	}
 
 }

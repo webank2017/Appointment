@@ -11,9 +11,9 @@ public class ActivityInfo {
 	private int activityId;//活动Id
 	private String activityTheme;//活动主题
 	private int userId;//用户Id
-	private Timestamp launchTime;//'活动发布时间',
-	private Timestamp startTime ;// '活动开始时间',
-	private Timestamp endTime ;// '活动结束时间',
+	private String launchTime;//'活动发布时间',
+	private String startTime ;// '活动开始时间',
+	private String endTime ;// '活动结束时间',
 	private int activityType; //活动类型 '0体育，1旅游，2户外，3娱乐，4其他',
 	private String activityPlace; //'活动地址名',
 	private	  String detailPlace; // '活动详细地址',
@@ -70,37 +70,37 @@ public class ActivityInfo {
 	/**
 	 * @return the launchTime
 	 */
-	public Timestamp getLaunchTime() {
+	public String getLaunchTime() {
 		return launchTime;
 	}
 	/**
 	 * @param launchTime the launchTime to set
 	 */
-	public void setLaunchTime(Timestamp launchTime) {
+	public void setLaunchTime(String launchTime) {
 		this.launchTime = launchTime;
 	}
 	/**
 	 * @return the startTime
 	 */
-	public Timestamp getStartTime() {
+	public String getStartTime() {
 		return startTime;
 	}
 	/**
 	 * @param startTime the startTime to set
 	 */
-	public void setStartTime(Timestamp startTime) {
+	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
 	/**
 	 * @return the endtime
 	 */
-	public Timestamp getEndTime() {
+	public String getEndTime() {
 		return endTime;
 	}
 	/**
 	 * @param endtime the endtime to set
 	 */
-	public void setEndTime(Timestamp endTime) {
+	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
 	/**

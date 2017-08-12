@@ -8,8 +8,11 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import org.aspectj.weaver.NewConstructorTypeMunger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,14 +45,14 @@ public class ActivityInfoDaoTest {
 		activityInfo.setContacter("陈小锋");
 		activityInfo.setContacterNumber("15992439943");
 		activityInfo.setDetailPlace("前海生态科技园");
-		activityInfo.setEndTime(new Timestamp(System.currentTimeMillis()));
+		activityInfo.setEndTime((new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
 		activityInfo.setGenderRequire(2);
 		activityInfo.setIfRequire(0);
-		activityInfo.setLaunchTime(new Timestamp(System.currentTimeMillis()));
+		activityInfo.setLaunchTime((new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
 		activityInfo.setNumberNow(1);
 		activityInfo.setNumberUp(10);
 		activityInfo.setPassword("66666");
-		activityInfo.setStartTime(new Timestamp(System.currentTimeMillis()));
+		activityInfo.setStartTime((new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
 		activityInfo.setUserId(1);
 		return activityInfo;
 	}
@@ -499,14 +502,14 @@ public class ActivityInfoDaoTest {
 		activityInfo.setContacter("陈小锋1");
 		activityInfo.setContacterNumber("15992439942");
 		activityInfo.setDetailPlace("前海生态科技园1");
-		activityInfo.setEndTime(new Timestamp(System.currentTimeMillis()));
+		activityInfo.setEndTime((new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
 		activityInfo.setGenderRequire(1);
 		activityInfo.setIfRequire(1);
-		activityInfo.setLaunchTime(new Timestamp(System.currentTimeMillis()));
+		activityInfo.setLaunchTime((new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
 		activityInfo.setNumberNow(2);
 		activityInfo.setNumberUp(12);
 		activityInfo.setPassword("666661");
-		activityInfo.setStartTime(new Timestamp(System.currentTimeMillis()));
+		activityInfo.setStartTime((new SimpleDateFormat("yyyy-MM-dd")).format(new Date()));
 		activityInfo.setUserId(1);
 		return activityInfo;
 	}

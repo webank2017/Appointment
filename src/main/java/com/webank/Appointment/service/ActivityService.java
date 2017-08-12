@@ -24,6 +24,6 @@ public interface ActivityService {
 
 	List<ActivityInfo> getMyPaticipate(int userId);
 
-
+	boolean addActivity(ActivityInfo activityInfo);
 	
 }

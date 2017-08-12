@@ -3,6 +3,11 @@
  */
 package com.webank.Appointment.controller;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,13 +15,19 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.ServletRequestDataBinder;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.Gson;
+import com.webank.Appointment.module.ActivityInfo;
 import com.webank.Appointment.module.PersonInfo;
+import com.webank.Appointment.service.ActSvc;
 import com.webank.Appointment.service.UserService;
 import com.webank.Appointment.utils.HttpUtil;
 import com.webank.Appointment.utils.SessionUtil;
@@ -35,6 +46,8 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	/*@Autowired
+	private ActSvc actsvc;*/
 	
 	/**
 	 * 登陆
@@ -99,5 +112,22 @@ public class UserController {
 		}	
 		return return_data;
 	}
-
+	
+	/*@ResponseBody
+	@RequestMapping(value = "launch")
+	public HashMap<String, Object> launchAct(HttpServletRequest request, ActivityInfo activityInfo){
+		HashMap<String, Object> return_data = new HashMap<String, Object>();
+		activityInfo.setActivityState(0);
+		Date nowDate = new Date();
+		activityInfo.setLaunchTime((new SimpleDateFormat("yyyy-MM-dd")).format(nowDate));
+		activityInfo.setNumberNow(0);
+		if (actsvc.addActivity(activityInfo)){
+			return_data.put("errMsg", "ok");
+		}
+		else {
+			return_data.put("errMsg", "launch fail");
+		}
+		return_data.put("data", new ArrayList<String>());
+		return return_data;
+	}*/
 }
