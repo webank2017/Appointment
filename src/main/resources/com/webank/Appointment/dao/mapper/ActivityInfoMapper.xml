@@ -9,14 +9,25 @@
     	SELECT * FROM yb_activityinfo WHERE  activityid IN (
     	SELECT yb_activityinfo.activityid FROM yb_activityinfo JOIN yb_paticipateinfo ON yb_activityinfo.activityid=yb_paticipateinfo.activityid WHERE yb_paticipateinfo.userid=#{userId});
  	</select>
-
+ 	
+	<select id="getRemain"  parameterType="int" resultType="int">
+    	SELECT numberup-numbernow FROM yb_activityinfo WHERE  activityid =#{activityId}
+    </select>
+    <update id="decreRemain" parameterType="int">
+	update yb_activityinfo set numbernow=numbernow-1 where activityid=#{activityId}
+	</update>
+ 	<update id="increRemain" parameterType="int">
+	update yb_activityinfo set numbernow=numbernow+1 where activityid=#{activityId}
+	</update>
 	<select id="getTotal"  parameterType="java.sql.Timestamp" resultType="int">
     	select count(1) from yb_activityinfo where endTime >#{time} and activitystate=1;
     </select>
 	
 	<select id="queryByRange"   resultMap="activityInfo">
-    	select * from yb_activityinfo where endtime >#{2} and activitystate=1 order by endtime asc limit #{0},#{1};
-    </select>
+    	SELECT * FROM yb_activityinfo WHERE  activityid NOT IN (
+        SELECT yb_activityinfo.activityid FROM yb_activityinfo JOIN yb_paticipateinfo ON yb_activityinfo.activityid=yb_paticipateinfo.activityid WHERE yb_paticipateinfo.userid=#{0})
+        AND endtime >#{3} AND activitystate=1 ORDER BY endtime ASC LIMIT #{1},#{2};
+   </select>
 	
 	<select id="getActivityById" parameterType="int" resultMap="activityInfo">
     	select * from yb_activityinfo where activityid=#{activityId};

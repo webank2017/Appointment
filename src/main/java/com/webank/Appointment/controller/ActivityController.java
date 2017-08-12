@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,8 +29,10 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.webank.Appointment.controller.common.Page;
 import com.webank.Appointment.module.ActivityInfo;
+import com.webank.Appointment.module.PaticipateInfo;
 import com.webank.Appointment.module.PersonInfo;
 import com.webank.Appointment.service.ActivityService;
+import com.webank.Appointment.utils.UserIdDecoder;
 
 
 /**
@@ -38,10 +42,12 @@ import com.webank.Appointment.service.ActivityService;
 @Controller
 @RequestMapping("/activity")
 public class ActivityController {
-
+	private static Logger logger = Logger.getLogger(ActivityController.class);
 	
 	@Autowired
 	protected ActivityService activiyService;
+	@Autowired
+	private UserIdDecoder userIdDecoder;
 	
 	/**
 	 * 活动列表
@@ -110,7 +116,28 @@ public class ActivityController {
 		result.addAll(activity);
 		return result.toJSONString();
 	}
+	/**
+	 * 加入活动
+	 * @param userId
+	 * @param activityId
+	 * @param request
+	 * @param respons
+	 * @return
+	 */
+	@RequestMapping(value = "/join")
+	@ResponseBody
+	public Map<String,Object> joinActivity(HttpServletRequest request, HttpServletResponse respons,PaticipateInfo paticipateInfo) {
+		HashMap<String, Object> return_data = new HashMap<String, Object>();
+
+		if(activiyService.join(paticipateInfo)){
+			return_data.put("errMsg", "ok!");
+		}
+		else return_data.put("errMsg", "join failed!");
+		return_data.put("data", new ArrayList<String>());
+		return return_data;
+	}
 	
+
 	/**
 	 * 发起活动
 	 * @param request
@@ -119,17 +146,56 @@ public class ActivityController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "launch")
-	public HashMap<String, Object> launchAct(HttpServletRequest request, ActivityInfo activityInfo){
+	public HashMap<String, Object> launchAct(HttpServletRequest request, String thirdSession, ActivityInfo activityInfo){
 		HashMap<String, Object> return_data = new HashMap<String, Object>();
 		activityInfo.setActivityState(0);
 		Date nowDate = new Date();
 		activityInfo.setLaunchTime((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(nowDate));
 		activityInfo.setNumberNow(0);
-		if (activiyService.addActivity(activityInfo)){
+		int userid = userIdDecoder.getUserId(request.getSession(), thirdSession);
+		
+		logger.info("ThirdSession to UserId: [thirdSession=" + thirdSession + "][userid="+String.valueOf(userid));
+		
+		if (userid >= 0){
+			activityInfo.setUserId(userid);
+			if (activiyService.addActivity(activityInfo)){
+				return_data.put("errMsg", "ok");
+			}
+			else {
+				return_data.put("errMsg", "launch fail");
+			}
+		}
+		else {
+			return_data.put("errMsg", "SESSION_ERROR");
+		}
+		return_data.put("data", new ArrayList<String>());
+		return return_data;
+	}
+	/**
+	 * 退出活动
+	 * @param request
+	 * @param activityInfo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/withdraw")
+	public HashMap<String, Object> withdrawActivity(HttpServletRequest request){
+		HashMap<String, Object> return_data = new HashMap<String, Object>();
+		String activityIdString=request.getParameter("activityId");
+		String userIdString=request.getParameter("userId");
+		int activityId=0; int userId=0;
+		try{
+			activityId=Integer.parseInt(activityIdString);
+			userId=Integer.parseInt(userIdString);
+		}catch(Exception ex){
+			return_data.put("errMsg", "withdraw fail");
+			return return_data;
+		}
+		if (activiyService.withdrawActivity(activityId,userId)){
 			return_data.put("errMsg", "ok");
 		}
 		else {
-			return_data.put("errMsg", "launch fail");
+			return_data.put("errMsg", "withdraw fail");
 		}
 		return_data.put("data", new ArrayList<String>());
 		return return_data;

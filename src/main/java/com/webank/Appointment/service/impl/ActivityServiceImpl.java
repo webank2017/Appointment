@@ -10,8 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.webank.Appointment.controller.common.Page;
 import com.webank.Appointment.dao.ActivityInfoDao;
+import com.webank.Appointment.dao.PaticipateInfoDao;
 import com.webank.Appointment.dao.PersonInfoDao;
 import com.webank.Appointment.module.ActivityInfo;
+import com.webank.Appointment.module.PaticipateInfo;
 import com.webank.Appointment.module.PersonInfo;
 import com.webank.Appointment.service.ActivityService;
 /**
@@ -27,12 +29,14 @@ public class ActivityServiceImpl implements ActivityService {
 	private ActivityInfoDao activityInfoDao;
 	@Autowired
 	private PersonInfoDao personInfoDao;
+	@Autowired
+	private PaticipateInfoDao paticipateInfoDao;
 
 	@Override
 	public Page<ActivityInfo> getActivityList(int pageNo, int pageSize,
 			int userId) {
 		Timestamp time = new Timestamp(System.currentTimeMillis());
-		List<ActivityInfo> activityList = activityInfoDao.queryByRange((pageNo-1)*pageSize, pageSize, time);
+		List<ActivityInfo> activityList = activityInfoDao.queryByRange(userId,(pageNo-1)*pageSize, pageSize, time);
 		// TODO Auto-generated method stub
 		int total = activityInfoDao.getTotal(time);
 		Page<ActivityInfo> page = new Page<ActivityInfo>();
@@ -79,6 +83,31 @@ public class ActivityServiceImpl implements ActivityService {
 			logger.error(ex.toString());
 			return false;
 		}
+	}
+
+	@Transactional
+	@Override
+	public boolean join(PaticipateInfo paticipateInfo) {
+		// TODO Auto-generated method stub
+		synchronized(ActivityServiceImpl.class){
+			int remain = activityInfoDao.getRemain(paticipateInfo.getActivityId());
+			if(remain==0) return false;
+			if(activityInfoDao.increRemain(paticipateInfo.getActivityId())==1 && paticipateInfoDao.addPaticipateInfo(paticipateInfo)==1){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Transactional
+	@Override
+	public boolean withdrawActivity(int activityId, int userId) {
+		synchronized(ActivityServiceImpl.class){
+			if(activityInfoDao.decreRemain(activityId)==1 && paticipateInfoDao.deletePaticipateInfo(activityId, userId)==1){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 }

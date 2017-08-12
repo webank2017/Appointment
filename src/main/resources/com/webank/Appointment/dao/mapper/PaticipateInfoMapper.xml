@@ -20,8 +20,8 @@
 	
 
 	<insert id="addPaticipateInfo" parameterType="PaticipateInfo" keyProperty="paticipate" useGeneratedKeys="true">
-		insert into yb_paticipateinfo(activityid,userid,number,paticipatetime) 
-		values(#{activityId},#{userId},#{number},#{paticipateTime});
+		insert into yb_paticipateinfo(activityid,userid,username,phone,gender) 
+		values(#{activityId},#{userId},#{username},#{phone},#{gender});
 	</insert>
 	
 	
@@ -33,14 +33,17 @@
 	
 
 	<update id="modifyPaticipateInfo" parameterType="PaticipateInfo">
-	update yb_paticipateinfo set number=#{number}
+	update yb_paticipateinfo set username=#{username},phone=#{phone},gender=#{gender}
 	where activityid = #{activityId} and userid=#{userId};
 	</update>
 	
 	
     <resultMap type="PaticipateInfo" id="paticipateInfo">  
         <id column="paticipate" property="paticipate"/>  
-        <result column="activityid" property="activityId"/>  
+        <result column="activityid" property="activityId"/>
+        <result column="username" property="username"/>
+        <result column="phone" property="phone"/>
+        <result column="gender" property="gender"/>
         <result column="userid" property="userId"/>  
         <result column="number" property="number"/>  
         <result column="paticipatetime" property="paticipateTime"/>  

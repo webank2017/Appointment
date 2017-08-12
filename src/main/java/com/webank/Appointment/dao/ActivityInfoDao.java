@@ -13,6 +13,10 @@ import com.webank.Appointment.module.ActivityInfo;
 
 public interface ActivityInfoDao {
 	
+	int getRemain(int activityId);
+	int increRemain(int activityId);
+	int decreRemain(int activityId);
+	
 	/**
 	 * 获取我参加的活动
 	 * @param userId
@@ -22,7 +26,7 @@ public interface ActivityInfoDao {
 	
 	int getTotal(Timestamp time);
 	
-	List<ActivityInfo> queryByRange(int offset,int pageSize,Timestamp time);
+	List<ActivityInfo> queryByRange(int userId,int offset,int pageSize,Timestamp time);
 	
 	
 	//---------------------------不分状态 结束：正在进行
