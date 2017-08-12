@@ -154,15 +154,15 @@ public class ActivityController {
 		
 		ActivityInfo info = new ActivityInfo();
 		info.setActivityTheme(URLDecoder.decode(request.getParameter("activityTheme"),"utf-8") );
-		info.setContacter(request.getParameter("contacter"));
+		info.setContacter(URLDecoder.decode(request.getParameter("contacter"),"utf-8"));
 		info.setStartTime(request.getParameter("startTime"));
 		info.setEndTime(request.getParameter("endTime"));
 		info.setActivityType(Integer.parseInt(request.getParameter("activityType")));
-		info.setActivityPlace(request.getParameter("activityPlace"));
+		info.setActivityPlace(URLDecoder.decode(request.getParameter("activityPlace"),"utf-8"));
 		info.setActivityPlace_x(Double.parseDouble(request.getParameter("activityPlace_x")));
 		info.setActivityPlace_y(Double.parseDouble(request.getParameter("activityPlace_y")));
 		info.setNumberUp(Integer.parseInt(request.getParameter("numberUp")));
-		info.setActivityInfo(request.getParameter("activityInfo"));
+		info.setActivityInfo(URLDecoder.decode(request.getParameter("activityInfo"),"utf-8"));
 		info.setIfRequire(Integer.parseInt(request.getParameter("ifRequire")));
 		info.setContacterNumber(request.getParameter("contacterNumber"));
 		info.setGenderRequire(Integer.parseInt(request.getParameter("genderRequire")));
