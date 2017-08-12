@@ -188,7 +188,7 @@ public class ActivityController {
 			activityId=Integer.parseInt(activityIdString);
 			userId=Integer.parseInt(userIdString);
 		}catch(Exception ex){
-			return_data.put("errMsg", "withdraw fail");
+			ex.printStackTrace();
 			return return_data;
 		}
 		if (activiyService.withdrawActivity(activityId,userId)){
