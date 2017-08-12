@@ -32,6 +32,7 @@ import com.webank.Appointment.utils.SessionUtil;
 import com.webank.Appointment.utils.StringUtil;
 import com.webank.Appointment.utils.UserIdDecoder;
 import com.webank.Appointment.utils.WXThirdSessionUtil;
+import com.webank.Appointment.utils.YBSession;
 
 
 /**
@@ -94,7 +95,8 @@ public class UserController {
 			thirdSessValueBuffer.append(session_key);
 			thirdSessValueBuffer.append(",");
 			thirdSessValueBuffer.append(openid);
-			SessionUtil.setAttribute(request.getSession(), third_sessionString, thirdSessValueBuffer.toString());
+			YBSession.session.put(third_sessionString, thirdSessValueBuffer.toString());
+//			SessionUtil.setAttribute(request.getSession(), third_sessionString, thirdSessValueBuffer.toString());
 			
 			//System.out.println("session_key:   "+session_key);
 			//System.out.println("openid:    "+openid);

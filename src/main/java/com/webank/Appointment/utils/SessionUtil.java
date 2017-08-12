@@ -61,15 +61,14 @@ public class SessionUtil {
 	 * @param key
 	 * @return
 	 */
-	public static String getOpenId(HttpSession session, String key){
-		Object valueString = session.getAttribute(key);
-		logger.info("sess="+ String.valueOf(valueString));
-		if (valueString == null || StringUtil.isEmptyOrBlank(valueString.toString())){
+	public static String getOpenId(String key){
+		
+		if (key == null || StringUtil.isEmptyOrBlank(key.toString())){
 			return null;
 		}
-		logger.info(valueString);
-		String val = valueString.toString();
-		String[] items = val.split(",");
+
+
+		String[] items = key.split(",");
 		logger.info("sesskey="+String.valueOf(items[0]));
 		logger.info("openid="+String.valueOf(items[1]));
 		if (items != null && items.length == 2){

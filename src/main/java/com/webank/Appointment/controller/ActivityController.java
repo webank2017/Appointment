@@ -8,6 +8,8 @@
  */
 package com.webank.Appointment.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +34,6 @@ import com.webank.Appointment.module.ActivityInfo;
 import com.webank.Appointment.module.PaticipateInfo;
 import com.webank.Appointment.module.PersonInfo;
 import com.webank.Appointment.service.ActivityService;
-import com.webank.Appointment.utils.SessionUtil;
 import com.webank.Appointment.utils.UserIdDecoder;
 
 
@@ -144,30 +145,46 @@ public class ActivityController {
 	 * @param request
 	 * @param activityInfo
 	 * @return
+	 * @throws UnsupportedEncodingException 
 	 */
 	@ResponseBody
 	@RequestMapping(value = "launch/{thirdSession}")
-	public HashMap<String, Object> launchAct(@PathVariable String thirdSession,HttpServletRequest request, ActivityInfo activityInfo){
-		//String thirdSession = request.getParameter("thirdSession");
-		
-		//test
-		logger.info("3rd session get: "+thirdSession);
+	public HashMap<String, Object> launchAct(@PathVariable String thirdSession,HttpServletRequest request) throws UnsupportedEncodingException{
 
-		//SessionUtil.setAttribute(request.getSession(), thirdSession, "+uJzelpAvFoYQNaXv+vj6g==,obJcA0emB2X1SNV7eAE5uyPuvlJ0");
-		//
+		
+		ActivityInfo info = new ActivityInfo();
+		info.setActivityTheme(URLDecoder.decode(request.getParameter("activityTheme"),"utf-8") );
+		info.setContacter(request.getParameter("contacter"));
+		info.setStartTime(request.getParameter("startTime"));
+		info.setEndTime(request.getParameter("endTime"));
+		info.setActivityType(Integer.parseInt(request.getParameter("activityType")));
+		info.setActivityPlace(request.getParameter("activityPlace"));
+		info.setActivityPlace_x(Double.parseDouble(request.getParameter("activityPlace_x")));
+		info.setActivityPlace_y(Double.parseDouble(request.getParameter("activityPlace_y")));
+		info.setNumberUp(Integer.parseInt(request.getParameter("numberUp")));
+		info.setActivityInfo(request.getParameter("activityInfo"));
+		info.setIfRequire(Integer.parseInt(request.getParameter("ifRequire")));
+		info.setContacterNumber(request.getParameter("contacterNumber"));
+		info.setGenderRequire(Integer.parseInt(request.getParameter("genderRequire")));
 		
 		HashMap<String, Object> return_data = new HashMap<String, Object>();
-		activityInfo.setActivityState(0);
+		info.setActivityState(0);
 		Date nowDate = new Date();
-		activityInfo.setLaunchTime((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(nowDate));
-		activityInfo.setNumberNow(0);
-		int userid = userIdDecoder.getUserId(request.getSession(), thirdSession);
+		info.setLaunchTime((new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")).format(nowDate));
+		info.setNumberNow(0);
+		/*Enumeration<String> attributeNames = request.getSession().getAttributeNames();
+		while(attributeNames.hasMoreElements()) {
+			String nextElement = attributeNames.nextElement();
+			logger.info("attributeName:"+nextElement);
+			logger.info("attributevalue:"+request.getSession().getAttribute(nextElement));
+		}*/
+		int userid = userIdDecoder.getUserId(thirdSession);
 		
 		logger.info("ThirdSession to UserId: [thirdSession=" + thirdSession + "][userid="+String.valueOf(userid));
 		
 		if (userid >= 0){
-			activityInfo.setUserId(userid);
-			if (activiyService.addActivity(activityInfo)){
+			info.setUserId(userid);
+			if (activiyService.addActivity(info)){
 				return_data.put("errMsg", "ok");
 			}
 			else {
